@@ -14,7 +14,7 @@ const scene = new THREE.Scene();
 let bee;
 let mixer;
 const loader = new GLTFLoader();
-loader.load('/demon_bee_full_texture.glb',
+loader.load('models/demon_bee_full_texture.glb', // Ensure the path is correct
     function (gltf) {
         bee = gltf.scene;
         bee.scale.set(0.5, 0.5, 0.5); // Scale down the bee
@@ -22,9 +22,14 @@ loader.load('/demon_bee_full_texture.glb',
 
         mixer = new THREE.AnimationMixer(bee);
         mixer.clipAction(gltf.animations[0]).play();
+        console.log('Bee model loaded successfully');
     },
-    function (xhr) {},
-    function (error) {}
+    function (xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    function (error) {
+        console.error('An error happened', error);
+    }
 );
 const renderer = new THREE.WebGLRenderer({alpha: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
